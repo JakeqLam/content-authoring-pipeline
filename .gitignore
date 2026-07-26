@@ -1,0 +1,26 @@
+# Machine-local absolute paths
+workspace.json
+*.local.json
+
+# Generated output
+out/
+tmp/
+.cache/
+logs/
+reports/
+auditions/
+candidate-packets/
+*.zip
+
+# Runtime/debug evidence
+issue.zip
+runtime.log
+runtime_snapshot.json
+runtime_snapshot.txt
+screenshots/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "workspace_root": "C:\\Users\\YourName\\dnd-workspace",
+  "project_root": "C:\\Users\\YourName\\dnd-workspace\\dnd-prototype",
+  "tools_root": "C:\\Users\\YourName\\dnd-workspace\\dnd-dev-tools",
+  "handoff_root": "C:\\Users\\YourName\\dnd-workspace\\dnd-handoff",
+  "asset_library_root": "C:\\Users\\YourName\\dnd-workspace\\asset-library",
+  "pixel_art_upload_root": "C:\\Users\\YourName\\dnd-workspace\\asset-library\\pixel-art\\asset-upload",
+  "sfx_root": "C:\\Users\\YourName\\dnd-workspace\\asset-library\\sfx",
+  "sfx_upload_root": "C:\\Users\\YourName\\dnd-workspace\\asset-library\\sfx\\asset-upload",
+  "downloads_root": "C:\\Users\\YourName\\Downloads"
+}
