@@ -41,6 +41,58 @@ To clone the game repository during initialization:
 & "$env:USERPROFILE\dnd-workspace\dnd-dev-tools\Initialize-DndWorkspace.ps1" -GameRepoUrl "<GAME_REPOSITORY_URL>"
 ```
 
+## Continuing work across computers and chat threads
+
+The pipeline repository recreates the workflow, but it does not contain the
+Godot project or the full asset library.
+
+On another computer:
+
+1. Clone this repository into:
+
+   ```text
+   %USERPROFILE%\dnd-workspace\dnd-dev-tools
+   ```
+
+2. Run:
+
+   ```powershell
+   & "$env:USERPROFILE\dnd-workspace\dnd-dev-tools\Initialize-DndWorkspace.ps1"
+   ```
+
+3. Clone the Godot project repository into:
+
+   ```text
+   %USERPROFILE%\dnd-workspace\dnd-prototype
+   ```
+
+4. Restore the local asset library separately under:
+
+   ```text
+   %USERPROFILE%\dnd-workspace\asset-library
+   ```
+
+For continuity across chat threads, use durable project artifacts rather than
+relying on conversation history alone:
+
+```text
+Git repositories
+    Preserve game source and pipeline tooling.
+
+README.md and workflow documentation
+    Preserve the workspace contract and operating rules.
+
+dnd-handoff\issue.zip
+    Preserves current source, Git state, runtime evidence, and focused assets.
+
+Chat context
+    Preserves discussion, reasoning, and creative direction.
+```
+
+In a fresh thread, upload the latest `issue.zip` and state the active task.
+That gives the assistant the current implementation and runtime state without
+requiring the original conversation.
+
 ## Validation
 
 ```powershell
