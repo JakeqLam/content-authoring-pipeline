@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param(
     [string]$WorkspaceRoot = (Join-Path $env:USERPROFILE "dnd-workspace"),
     [string]$PipelineRepoUrl = "https://github.com/JakeqLam/content-authoring-pipeline.git",
@@ -39,7 +39,11 @@ Write-Host "[1/5] Creating canonical folders" -ForegroundColor Cyan
     (Join-Path $AssetRoot "temp"),
     (Join-Path $AssetRoot "tilesets"),
     $HandoffRoot,
-    (Join-Path $HandoffRoot "screenshots")
+    (Join-Path $HandoffRoot "screenshots"),
+    (Join-Path $HandoffRoot "profiler"),
+    (Join-Path $HandoffRoot "logs"),
+    (Join-Path $HandoffRoot "captures"),
+    (Join-Path $HandoffRoot "backups\issue-packets")
 ) | ForEach-Object { Ensure-Directory -Path $_ }
 
 Write-Host "[2/5] Preparing pipeline repository" -ForegroundColor Cyan

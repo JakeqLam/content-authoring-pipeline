@@ -1,44 +1,20 @@
 @echo off
-setlocal EnableExtensions
+setlocal
 
-set "SCRIPT_DIR=%~dp0"
-set "COLLECTOR=%SCRIPT_DIR%collect-issue.ps1"
+set "PRESET=full-diagnostics"
+if not "%~1"=="" set "PRESET=%~1"
 
-if not exist "%COLLECTOR%" (
-    echo [DND-COLLECT] Missing script:
-    echo %COLLECTOR%
-    echo.
-    pause
-    exit /b 1
-)
-
-echo [DND-COLLECT] Starting one-click issue collection...
-echo.
-
-if "%~1"=="" (
-    powershell.exe ^
-      -NoLogo ^
-      -NoProfile ^
-      -ExecutionPolicy Bypass ^
-      -File "%COLLECTOR%"
-) else (
-    powershell.exe ^
-      -NoLogo ^
-      -NoProfile ^
-      -ExecutionPolicy Bypass ^
-      -File "%COLLECTOR%" ^
-      -Preset "%~1"
-)
+powershell.exe ^
+  -NoLogo ^
+  -NoProfile ^
+  -ExecutionPolicy Bypass ^
+  -File "%~dp0collect-issue.ps1" ^
+  -Preset "%PRESET%"
 
 set "EXIT_CODE=%ERRORLEVEL%"
-
-echo.
 if not "%EXIT_CODE%"=="0" (
-    echo [DND-COLLECT] FAILED with exit code %EXIT_CODE%.
-) else (
-    echo [DND-COLLECT] SUCCESS.
+    echo.
+    echo Diagnostic collection failed with exit code %EXIT_CODE%.
+    pause
 )
-
-echo.
-pause
 exit /b %EXIT_CODE%

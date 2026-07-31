@@ -17,6 +17,13 @@ issue.zip
 runtime.log
 runtime_snapshot.json
 runtime_snapshot.txt
+runtime_events.jsonl
+runtime_performance.csv
+runtime_scene_tree.csv
+runtime_manifest.json
+latest_issue.json
+captures/
+profiler/
 screenshots/
 
 # OS/editor noise

@@ -101,7 +101,24 @@ requiring the original conversation.
 
 Never initialize Git at `dnd-workspace`. The pipeline repository belongs at `dnd-workspace\dnd-dev-tools`, and the game repository belongs at `dnd-workspace\dnd-prototype`.
 
-## compiling runtime into issue.zip
-```text
-$ErrorActionPreference="Stop"; $ConfigPath=Join-Path $env:USERPROFILE "dnd-workspace\dnd-dev-tools\workspace.json"; Write-Host "[1/4] Loading workspace configuration" -ForegroundColor Cyan; if (-not (Test-Path -LiteralPath $ConfigPath -PathType Leaf)) { throw "Missing workspace configuration: $ConfigPath" }; $Config=([System.IO.File]::ReadAllText($ConfigPath,[System.Text.Encoding]::UTF8) | ConvertFrom-Json); $Validator=Join-Path ([string]$Config.tools_root) "Test-DndWorkspace.ps1"; $Collector=Join-Path ([string]$Config.tools_root) "collect_issue.ps1"; Write-Host "[2/4] Validating workspace" -ForegroundColor Cyan; & $Validator -WorkspaceRoot ([string]$Config.workspace_root); Write-Host "[3/4] Collecting current combat-audio evidence" -ForegroundColor Cyan; & $Collector -Preset combat-audio; Write-Host "[4/4] Verifying issue packet" -ForegroundColor Cyan; $Issue=Join-Path ([string]$Config.handoff_root) "issue.zip"; if (-not (Test-Path -LiteralPath $Issue -PathType Leaf)) { throw "Collector completed without producing issue.zip: $Issue" }; $File=Get-Item -LiteralPath $Issue; $Hash=Get-FileHash -LiteralPath $Issue -Algorithm SHA256; Write-Host "Issue packet ready." -ForegroundColor Green; Write-Host "Path:   $($File.FullName)"; Write-Host "Size:   $($File.Length) bytes"; Write-Host "SHA256: $($Hash.Hash)"; Write-Host "Updated: $($File.LastWriteTime)"
+## Diagnostic Collector v3
+
+The default issue workflow captures current source, exact Git state, runtime state, a rolling event window, performance history, scene-tree state, Godot logs, screenshots, and imported profiler evidence. It is intended to transfer a difficult live problem to another agent or thread without depending on conversation history.
+
+### Recommended capture loop
+
+1. Start Godot's Profiler or Visual Profiler when performance is part of the problem.
+2. Reproduce one focused problem in the integration scenario.
+3. Press **F12 immediately after the meaningful failure or spike**.
+4. Export useful Profiler, Visual Profiler, Monitors, Video RAM, or ObjectDB evidence.
+5. Import those exports with `Import-GodotProfilerExport.ps1`, or place them in `dnd-handoff\profiler`.
+6. Fill in `dnd-handoff\request.md`, especially **Capture Moment**.
+7. Run:
+
+```powershell
+& "$env:USERPROFILE\dnd-workspace\dnd-dev-tools\collect-issue.ps1" -Preset full-diagnostics
 ```
+
+The collector validates the packet, preserves the previous `issue.zip`, writes the canonical packet to `dnd-handoff`, and creates a timestamped upload copy in Downloads. A receiving agent should begin with `AGENT_READ_FIRST.md`.
+
+See `docs/workflows/diagnostic_issue_collector.md` for the capture workflow and `docs/workflows/complex_system_debugging_playbook.md` for the evidence hierarchy, failure taxonomy, squad-movement lessons, and receiving-agent method.
